@@ -1,5 +1,6 @@
 import random
 import pandas as pd
+
 df_savedfile=pd.read_csv('data.csv')
 data=[]#df_savedfile.values.tolist()#jia inginn mengosongkan tinggall ganti menjadi []
 def login(data,x):
@@ -78,6 +79,7 @@ def maingame(user):
     daftar=[]#daftar urutan kalimat
     print("1.Kota\n2.Kata Kerja")
     kategori=int(input("Masukkan Kategori: "))
+    print(len(kalimat))
     if kategori==1:
         # kalimat=kalimat[0:10]
         print("Nama Kota")
@@ -90,7 +92,7 @@ def maingame(user):
         # print(kalimat)
         for i in range(len(kalimat[11:25])):
             daftar.append(i+11)
-    # print(daftar)
+    print(daftar)
     for a in userkalimat:#menentukan game yang belum dimainkan 
         if a in daftar:
             daftar.remove(a)
@@ -126,6 +128,7 @@ def maingame(user):
         huruf=input('masukkan tebakan anda: ').upper()
         if len(huruf)==1:
             if huruf !="":
+
                 if huruf in tertebak:
                     benar=benar+1
                     for i in range(len(chosensentence)):
@@ -141,12 +144,12 @@ def maingame(user):
                     # print(tertebak)
                     print(" ".join(tebakankal))
                     print(hangman[salah])
+                elif huruf not in tertebak and huruf in chosensentence:
+                    print("huruf sudah ditebak")
                 elif huruf not in tertebak:
                     salah=salah+1
                     print(" ".join(tebakankal))
                     print(hangman[salah])
-                if huruf=="":
-                    pass
             else:
                 pass
     if salah==8:
@@ -161,6 +164,11 @@ def maingame(user):
         user[1]=score
     else:
         pass
+#window
+
+
+
+
 #/////login/signup/changeuser///////
 
 print("selamat datang di game tebak kata")
