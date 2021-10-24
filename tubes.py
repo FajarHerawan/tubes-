@@ -2,7 +2,7 @@ import random
 import pandas as pd
 
 df_savedfile=pd.read_csv('data.csv')
-data=[]#df_savedfile.values.tolist()#jia inginn mengosongkan tinggall ganti menjadi []
+data=df_savedfile.values.tolist()#jia inginn mengosongkan tinggall ganti menjadi []
 def login(data,x):
     newplayer=[x,0," "]
     name=[data[i][0] for i in range(len(data))]
@@ -73,13 +73,17 @@ def maingame(user):
     else:
         # print(user[2],type(user[2]))
         userkalimat=list(map(int,user[2].split(",")))#list(map(user[2].split(",")))#karena awalanya tsr diubah mnjd list 
-    print(userkalimat,type(userkalimat))
+    # print(userkalimat,type(userkalimat))
     kata=pd.read_csv('kata.csv')#read daftar kalimat from external file
     kalimat=kata.values.tolist()#dijakdikan array
+    #print kata yang sudah ditebak
+    # print("kata yang sudah ditebak:")
+    # for i in userkalimat:
+    #     print("".join(map(str,kalimat[i])))
     daftar=[]#daftar urutan kalimat
-    print("1.Kota\n2.Kata Kerja")
+    print("1.Kota\n2.Kata Kerja\n3.random")
     kategori=int(input("Masukkan Kategori: "))
-    print(len(kalimat))
+    # print(len(kalimat))
     if kategori==1:
         # kalimat=kalimat[0:10]
         print("Nama Kota")
@@ -92,11 +96,17 @@ def maingame(user):
         # print(kalimat)
         for i in range(len(kalimat[11:25])):
             daftar.append(i+11)
-    print(daftar)
+    #random
+    # elif kategori==3:
+    #     for i in range(len(kalimat[0:25])):
+    #         daftar.append(i)
+    # print(daftar)
     for a in userkalimat:#menentukan game yang belum dimainkan 
         if a in daftar:
             daftar.remove(a)
     # print(daftar)
+    if daftar==[]:
+        print("game sudah pernah dimainkansemua tunggu update selanjutnya")
     gamechoice=random.choice(daftar)
     userkalimat.append(str(gamechoice))#masukan ke daftar awal
     # print(userkalimat)
@@ -145,29 +155,30 @@ def maingame(user):
                     print(" ".join(tebakankal))
                     print(hangman[salah])
                 elif huruf not in tertebak and huruf in chosensentence:
-                    print("huruf sudah ditebak")
+                    print(f"huruf {huruf} sudah ditebak")
                 elif huruf not in tertebak:
                     salah=salah+1
+                    print(f"tebakanmu tinggal {8-salah}")
                     print(" ".join(tebakankal))
                     print(hangman[salah])
             else:
                 pass
+    score=score-(salah**2)
     if salah==8:
         score=0
-    score=score-(salah**2)
-    print("scoremu adalah {}".format(score))
+    print(f"scoremu adalah {score}")
     print("score ingin disave atau tidak jika iya tekan 1")
     x=""
     while x=="":
-        x=input("x:  ")
-    if int(x)==1:
+        try:
+         x=int(input("x:  "))
+        except:
+            print("masukkan angka selain 1 jika tidak ingin dimasukkan")
+    if x==1:
         user[1]=score
     else:
         pass
 #window
-
-
-
 
 #/////login/signup/changeuser///////
 
@@ -178,11 +189,11 @@ b=0
 for i in range(len(data)):
     if data[i][0]==nama:
         b=i
-#///// user yang sedang bermain//////
+# # #///// user yang sedang bermain//////
 user=data[b]
 a=True
-# print(user[2])daftar kalimat yangs duah dimainan tetapi msh berbentuk str
-#////////game///////////////
+# # # print(user[2])daftar kalimat yangs duah dimainan tetapi msh berbentuk str
+# # #////////game///////////////
 while a==True:
     print("Main Menu: \n1.Login \n2.main game\n3.leaderboard\n4.status\n5.exit")
     i=""
@@ -214,6 +225,7 @@ while a==True:
     elif i==4:
         print(f"Status info :\n1.username: {user[0]}\n2.score: {user[1]}",end="\n")
     elif i==5:
-        pass
+        sort(data)
+        table(data)
         a=False
 
